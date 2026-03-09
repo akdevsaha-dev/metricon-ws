@@ -18,20 +18,8 @@ export const createMatchSchema = z.object({
   sport: z.string().min(1, { message: "sport must not be empty" }),
   homeTeam: z.string().min(1, { message: "homeTeam must not be empty" }),
   awayTeam: z.string().min(1, { message: "awayTeam must not be empty" }),
-  startTime: z.string().refine(
-    (val) => {
-      const date = new Date(val);
-      return !isNaN(date.getTime()) && date.toISOString() === val;
-    },
-    { message: "Must be a valid ISO date string" }
-  ),
-  endTime: z.string().refine(
-    (val) => {
-      const date = new Date(val);
-      return !isNaN(date.getTime()) && date.toISOString() === val;
-    },
-    { message: "Must be a valid ISO date string" }
-  ),
+  startTime: z.iso.datetime(),
+  endTime: z.iso.datetime(),
   homeScore: z.coerce.number().int().nonnegative().optional(),
   awayScore: z.coerce.number().int().nonnegative().optional(),
 }).superRefine((val, ctx) => {
