@@ -60,9 +60,9 @@ commentaryRouter.post("/", async (req, res) => {
 
         const [newCommentary] = await db.insert(commentary).values({
             matchId,
+            ...commentaryData,
             sequence: commentaryData.sequence ?? 0,
             eventType: commentaryData.eventType ?? "system",
-            ...commentaryData,
         }).returning();
 
         res.status(201).json({ data: newCommentary });
